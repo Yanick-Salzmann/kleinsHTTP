@@ -48,13 +48,8 @@ SET(libhead
 ./source/gaugeMetric/gaugeMetric.h
 ./source/templates.h)
 
-ADD_LIBRARY(kleinsHTTP-shared SHARED "${libsrc}")
 ADD_LIBRARY(kleinsHTTP-static STATIC "${libsrc}")
-
-set_property(TARGET kleinsHTTP-shared PROPERTY CXX_STANDARD 17)
 set_property(TARGET kleinsHTTP-static PROPERTY CXX_STANDARD 17)
-
-set_target_properties(kleinsHTTP-shared PROPERTIES OUTPUT_NAME "kleinsHTTP")
 set_target_properties(kleinsHTTP-static PROPERTIES OUTPUT_NAME "kleinsHTTP")
 
 add_compile_definitions(BUILD_VERSION="${CMAKE_PROJECT_VERSION}")
@@ -65,23 +60,3 @@ foreach(F ${libhead})
     file(READ "${F}" CONTENTS)
     file(APPEND libkleinsHTTP.h "${CONTENTS} \n")
 endforeach()
-
-
-# set the project name
-PROJECT(simpleHelloWorld VERSION 1.0.0)
-
-ADD_EXECUTABLE(simpleHelloWorld examples/simpleHelloWorld/main.cpp)
-target_link_libraries(simpleHelloWorld ${CMAKE_SOURCE_DIR}/libkleinsHTTP.a ssl crypto pthread)
-set_target_properties(simpleHelloWorld PROPERTIES RUNTIME_OUTPUT_DIRECTORY "examples/simpleHelloWorld/")
-
-add_dependencies(simpleHelloWorld kleinsHTTP-static)
-
-
-# set the project name
-PROJECT(httpsExample VERSION 1.0.0)
-
-ADD_EXECUTABLE(httpsExample examples/httpsExample/main.cpp)
-target_link_libraries(httpsExample ${CMAKE_SOURCE_DIR}/libkleinsHTTP.a ssl crypto pthread)
-set_target_properties(httpsExample PROPERTIES RUNTIME_OUTPUT_DIRECTORY "examples/httpsExample/")
-
-add_dependencies(httpsExample kleinsHTTP-static)
